@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title> </title>
+<style>
+
+ 
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+
+:root {
+	--bg-bg: #aaa;
+	--bg-content: #ddd;
+	--fg-a: #444;
+}
+
+img {
+    max-width: 100%;
+    margin: auto;
+    display: block;
+}
+
+
+body {
+    background-color: var(--bg-bg);
+ 
+    background-position: center;
+    background-repeat: repeat;
+    margin: 0;
+    line-height: 1.5;
+    font-family: monospace;
+    font-size: 12pt;
+    overflow-y: scroll;  
+}
+
+header , main, footer {
+    max-width: 40em;
+    margin: 10px auto;
+    padding: 1em;
+ 
+    background-color: var(--bg-content);
+}
+
+p, .iframe-wrapper {
+    margin: 1em 0;
+}
+
+:first-child {
+    margin-top: 0;
+}
+:last-child {
+    margin-bottom: 0;
+}
+
+h2, h3 {
+    font-size: 1.2em;
+    padding-top: 1em;
+}
+
+ul {
+    margin-left: 2em;
+}
+
+li {
+    margin: .5em 1em;
+}
+
+pre {
+	background-color: #333;
+	color: #fff;
+	padding: .5em;
+	border-radius: .5em;
+}
+
+p>code {
+	background-color: #333;
+	color: #fff;
+	padding: .25em .5em;
+	border-radius: .5em;
+}
+
+
+a {
+ 
+     
+    text-decoration: none;
+    border-bottom: 1px var(--bg-bg) solid;
+    color: var(--fg-a);
+}
+
+a:before {
+    content: "{ ";
+}
+
+a:after {
+    content: " }";
+}
+
+a:visited {
+    color: var(--fg-a);
+}
+
+a>img {
+    display: inline;
+}
+
+:focus-visible {
+    outline: none;
+    text-decoration-skip-ink: all;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-thickness: 4px;
+     
+     
+    background-color: #fff;
+    color: #000;
+}
+
+tbody tr:nth-child(odd) {
+	background-color: #ccc;
+}
+tbody tr:nth-child(even) {
+	background-color: #eee;
+}
+td {
+	padding: 0em .5em;
+}
+
+</style>
+</head>
+<body style="background-color: #ccc;">
+<main>
+
+<h1>Client-Server Interactions in BreadQuest</h1>
+<p>The interactions require HTTP POST, cookies, and WebSockets.</p>
+<h2 id="authentication">Authentication</h2>
+<p>Basically, a client sends a POST request to the BreadQuest server which contains the username and password, and the server responds with a &ldquo;set-cookie&rdquo; header.  This cookie will then be used for opening the WebSocket for playing the game.</p>
+<p>The payload for the POST request is sent to <code>/loginAction</code>.  Its payload (body) looks like this:</p>
+<pre><code>username=a&amp;password=a
+</code></pre>
+<p>Additionally, the <code>Content-Length</code> header must be in accord with the payload, and I think the ostracod server is using HTTP/1.1.</p>
+<p>This means that the whole POST request looks like this:</p>
+<pre><code>POST /loginAction HTTP/1.1
+Host: ostracodapps.com:2626
+Content-type: application/x-www-form-urlencoded
+Content-Length: 21
+
+username=a&amp;password=a
+</code></pre>
+<p>(with CRLF / 0d0a / \r\n, of course)</p>
+<p>After this, you&rsquo;ll get a response with a <code>set-cookie</code> header.</p>
+<p>I have no idea how to create a WebSocket in your language (in Rust, I used <code>tokio-tungstenite</code>), but you&rsquo;ll need to use that cookie.</p>
+<p>NOTE: If you&rsquo;re building an in-browser client, it&rsquo;ll use the cookie automatically if you&rsquo;re logged in on the server&rsquo;s website, but you will probably need to disable some securiy features.  If you&rsquo;re logged in at the official server, but not <a href="https://munvoseli.github.io/breadquest-client/socket.html">my web client</a>, that security has yet to be disabled.</p>
+<p>The default client is served at <code>/game</code>, but the WebSocket needs to be at <code>/gameAction</code>.</p>
+<h2 id="the-websocket-and-json">The WebSocket and JSON</h2>
+<p>Here, you&rsquo;ll be making requests on the WebSocket.  They are written in JSON.  Commands come a bit later, but some are listed here.</p>
+<p>Here is something that the server might send to the client.  It is almost a real request, it&rsquo;s just that <code>setTiles</code> has been abbreviated, there were actually five <code>addEntity</code> commands, and formatting stuffs.</p>
+<pre><code>{
+    &quot;success&quot;: true,
+    &quot;commandList&quot;:[
+        {&quot;commandName&quot;:&quot;removeAllEntities&quot;},
+        {
+            &quot;commandName&quot;:&quot;addEntity&quot;,
+            &quot;entityInfo&quot;:{
+                &quot;className&quot;:&quot;Enemy&quot;,
+                &quot;id&quot;:26693,
+                &quot;pos&quot;:{&quot;x&quot;:-3017,&quot;y&quot;:-2236}
+            }
+        },
+        {
+            &quot;commandName&quot;:&quot;addEntity&quot;,
+            &quot;entityInfo&quot;:{
+                &quot;className&quot;:&quot;Enemy&quot;,
+                &quot;id&quot;:26694,
+                &quot;pos&quot;:{&quot;x&quot;:-3042,&quot;y&quot;:-2291}
+            }
+        },
+        {
+            &quot;commandName&quot;:&quot;setTiles&quot;,
+            &quot;pos&quot;:{&quot;x&quot;:-3048,&quot;y&quot;:-2280},
+            &quot;tileList&quot;:[143,143,128...143,143],
+            &quot;size&quot;:30
+        },
+        {&quot;commandName&quot;:&quot;removeAllOnlinePlayers&quot;},
+        {
+            &quot;commandName&quot;:&quot;addOnlinePlayer&quot;,
+            &quot;username&quot;:&quot;Melody&quot;
+        },
+        {
+            &quot;commandName&quot;:&quot;setStats&quot;,
+            &quot;health&quot;:5,
+            &quot;isInvincible&quot;:false
+        }
+    ]
+}
+</code></pre>
+<p>Here&rsquo;s something that a client might send to the server:</p>
+<pre><code>[
+    {
+        &quot;commandName&quot;:&quot;assertPos&quot;,
+        &quot;pos&quot;:{&quot;x&quot;:-3033,&quot;y&quot;:-2265}
+    },
+    {&quot;commandName&quot;:&quot;getEntities&quot;},
+    {&quot;commandName&quot;:&quot;getTiles&quot;,&quot;size&quot;:30},
+    {&quot;commandName&quot;:&quot;getChatMessages&quot;},
+    {&quot;commandName&quot;:&quot;getOnlinePlayers&quot;},
+    {&quot;commandName&quot;:&quot;getInventoryChanges&quot;},
+    {&quot;commandName&quot;:&quot;getRespawnPosChanges&quot;},
+    {&quot;commandName&quot;:&quot;getStats&quot;},
+    {&quot;commandName&quot;:&quot;getAvatarChanges&quot;}
+]
+</code></pre>
+<h2 id="the-commands">The commands</h2>
+<p>This section will detail the commands the server and client say to each other.</p>
+<p>The client-to-server commands are listed in the code <a href="https://github.com/ostracod/breadquest/blob/master/utils/game.js#L174">here</a>.</p>
+<p>The server-to-client commands are listed in the code <a href="https://github.com/ostracod/breadquest/blob/master/public/javascript/game.js#L113">here</a>.</p>
+<p>I won&rsquo;t get to this now.  It&rsquo;s on the to-do list.</p>
+
+
+</main>
+<footer>
+
+<p>footer</p>
+
+<p>Please enjoy the following johnvertisements.</p>
+<iframe src="https://john.citrons.xyz/embed?ref=munvoseli.github.io" style="margin-left:auto;display:block;margin-right:auto;max-width:732px;width:100%;height:94px;border:none;"></iframe>
+<iframe src="https://john.citrons.xyz/embed?ref=munvoseli.github.io" style="margin-left:auto;display:block;margin-right:auto;max-width:732px;width:100%;height:94px;border:none;"></iframe>
+<iframe src="https://john.citrons.xyz/embed?ref=munvoseli.github.io" style="margin-left:auto;display:block;margin-right:auto;max-width:732px;width:100%;height:94px;border:none;"></iframe>
+<iframe src="https://john.citrons.xyz/embed?ref=munvoseli.github.io" style="margin-left:auto;display:block;margin-right:auto;max-width:732px;width:100%;height:94px;border:none;"></iframe>
+<iframe src="https://john.citrons.xyz/embed?ref=munvoseli.github.io" style="margin-left:auto;display:block;margin-right:auto;max-width:732px;width:100%;height:94px;border:none;"></iframe>
+<iframe src="https://john.citrons.xyz/embed?ref=munvoseli.github.io" style="margin-left:auto;display:block;margin-right:auto;max-width:732px;width:100%;height:94px;border:none;"></iframe>
+<iframe src="https://john.citrons.xyz/embed?ref=munvoseli.github.io" style="margin-left:auto;display:block;margin-right:auto;max-width:732px;width:100%;height:94px;border:none;"></iframe>
+<iframe src="https://john.citrons.xyz/embed?ref=munvoseli.github.io" style="margin-left:auto;display:block;margin-right:auto;max-width:732px;width:100%;height:94px;border:none;"></iframe>
+</footer>
+</body>
+</html>

@@ -1,0 +1,78 @@
+---
+title: "List of BreadQuest locations"
+date: 2022-09-03T22:03:36-00:00
+draft: true
+---
+
+## Rest zones
+
+x | y | date found | discoverer | description
+---|---|---|---|---
+111 | 31 | | | Spawn
+-1719 | -2094 | <2018-11-18 | | Stantown
+175 | -3775 | 2018-04-22 | tux | Tuxtown
+-1367 | -2991 | <2019-10-31 | | Dusty Outpost
+-815 | -3617 | <2019-10-31 | | Musty Outpost
+-4279 | -10639 |  | melody | Mel 1
+-1731 | -40 |  | melody | Mel 2 (does not exist apparently?)
+-2024 | -410 |  | melody | Mel 3
+-62 | 1859 | 2022-03-26 | | origin down
+-23 | 5908 |  | melody | origin down  Mel 4 / rainbow lounge
+-59 | 7651 |  | melody | origin down  Mel 5
+47 | 22628 |  | melody | origin down  Mel 6
+-60 | 25833 |  | melody | origin down  Mel 7
+22 | 37081 | 2021-05-24 | melody | origin down  Mel 8
+8640 | 50014 | 2021-05-24 | melody | Mel 9
+200 | 25812 | 2021-05-30 | melody | origin down  Mel A
+9138 | 100003 | 2021-05-31 | melody | Mel B
+95 | 98666 | 2021-05-31 | melody | origin down  Mel C
+7529 | 22 | 2020-05-16 | ubq323 | origin east ubq323
+9103 | -617 |  | | Small Wikitown
+11886 | -176 | 2021-03-05 | ubq323 | origin east
+15701 | -596 |  | | Wikitown
+16044 | 797 |  | boteram | Boteram cave
+17137 | -526 | 2022-05-03 | melody | origin east
+-3557 | -1100 |  | viba | WhileTrue Zone
+14132 | 12336 | 2020-08-08 | boteram | Boteram vertical 1
+15704 | 21858 |  | boteram | Boteram vertical 2
+15678 | 29352 | 2021-05-24 | melody | Boteram vertical 3, a few days before 2021-05-24
+15669 | 33596 |  | boteram | Boteram vertical 4
+15811 | 42440 | 2021-03-28 | | Boteram vertical deep bread
+15696 | 61392 | 2021-09-05 | melody | Boteram vertical A
+15659 | 68653 | 2021-05-31 | melody | Boteram vertical 5
+15770 | 85222 | 2021-05-31 | melody | Boteram vertical 6
+15598 | 87249 | 2021-06-13 | melody | Boteram vertical 7
+15593 | 93143 | 2021-06-13 | melody | Boteram vertical 8
+14672 | 99938 | 2021-06-14 | melody | Boteram vertical 9
+9127 | 141 |  | | poggi big sex
+-102 | 850 | 2020-12-14? | ultlang | origin down
+950 | -2419 | 2021-12-29 | darxoon |
+-3033 | -2265 | 2022-09-01 | melody | near test chunk
+
+## Other things:
+
+x | y | name
+---|---|---
+1000 | 100 | bruh zone
+-2671 | -10 | TOCC
+-4683 | -6020 | Lone Oven
+-4794 | -6035 | Lone Hospital
+15743 | 10182 | People break me
+15702 | 39573 | sus
+345 | 18 | Esperanto
+11605 | -131 | Heav base
+-3264 | -2112 | coral test chunk
+5000 | 0 | Boteram 5000 thing
+0 | -1100 | empire
+-3082 | -2364 | swimmies
+
+## Tunnels
+
+x | y | name
+---|---|---
+-186 to 23195 | -596 | Wiki road
+-3548 to -2759 | -1100 | WhileTrue V0tgil tunnel
+15701 | -596 to 100000  | Boteram vertical
+-1000 | -3551 to -2991 | Pointless road
+-3106 | -1100 to 0 | [unnamed road]
+9000 | 0 to 4000 | [unnamed road]
