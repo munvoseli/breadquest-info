@@ -27,9 +27,9 @@ x | y | date found | discoverer | description
 9138 | 100003 | 2021-05-31 | melody | Mel B
 95 | 98666 | 2021-05-31 | melody | origin down  Mel C
 7529 | 22 | 2020-05-16 | ubq323 | origin east ubq323
-9103 | -617 |  | | Small Wikitown
+9103 | -617 | 2020-06-30 | boteram | Small Wikitown
 11886 | -176 | 2021-03-05 | ubq323 | origin east
-15701 | -596 |  | | Wikitown
+15701 | -596 | 2020-04-26 | boteram | Wikitown
 16044 | 797 |  | boteram | Boteram cave
 17137 | -526 | 2022-05-03 | melody | origin east
 -3557 | -1100 |  | viba | WhileTrue Zone
@@ -37,7 +37,7 @@ x | y | date found | discoverer | description
 15704 | 21858 |  | boteram | Boteram vertical 2
 15678 | 29352 | 2021-05-24 | melody | Boteram vertical 3, a few days before 2021-05-24
 15669 | 33596 |  | boteram | Boteram vertical 4
-15811 | 42440 | 2021-03-28 | | Boteram vertical deep bread
+15811 | 42440 | 2021-03-28 | boteram | Boteram vertical deep bread
 15696 | 61392 | 2021-09-05 | melody | Boteram vertical A
 15659 | 68653 | 2021-05-31 | melody | Boteram vertical 5
 15770 | 85222 | 2021-05-31 | melody | Boteram vertical 6
@@ -53,6 +53,7 @@ x | y | date found | discoverer | description
 
 x | y | name
 ---|---|---
+0 | 0 | daydun origin
 1000 | 100 | bruh zone
 -2671 | -10 | TOCC
 -4683 | -6020 | Lone Oven
